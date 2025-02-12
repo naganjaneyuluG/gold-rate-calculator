@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Price Calculator (India)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .formula {
+            margin-top: 20px;
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Gold Price Calculator (India)</h2>
+        <label for="goldRate">Gold Rate (per gram in INR):</label>
+        <input type="number" id="goldRate" placeholder="Enter gold rate per gram">
+
+        <label for="purity">Purity (e.g., 916 for 22k):</label>
+        <input type="number" id="purity" placeholder="Enter gold purity">
+
+        <label for="grams">Weight (in grams):</label>
+        <input type="number" id="grams" placeholder="Enter weight in grams">
+
+        <label for="makingCharges">Making Charges (%):</label>
+        <input type="number" id="makingCharges" placeholder="Enter making charges percentage">
+
+        <button onclick="calculateGoldPrice()">Calculate</button>
+
+        <div class="result">
+            <p id="goldValue">Gold Value: ₹0.00</p>
+            <p id="makingChargesDisplay">Making Charges: ₹0.00</p>
+            <p id="gst">GST: ₹0.00</p>
+            <p id="totalPrice">Total Price: ₹0.00</p>
+        </div>
+
+        <div class="formula" id="formulaDisplay">
+            <p>Formula will be displayed here</p>
+        </div>
+    </div>
+
+    <script>
+        function calculateGoldPrice() {
+            var goldRate = parseFloat(document.getElementById('goldRate').value) || 0;
+            var purity = parseFloat(document.getElementById('purity').value) || 0;
+            var grams = parseFloat(document.getElementById('grams').value) || 0;
+            var makingChargesPercent = parseFloat(document.getElementById('makingCharges').value) || 0;
+
+            if (!goldRate || !purity || !grams || !makingChargesPercent) {
+                alert('Please fill in all the fields correctly.');
+                return;
+            }
+
+            // Calculate gold value
+            var goldValue = (goldRate * purity * grams) / 999;
+
+            // Calculate making charges (user input)
+            var makingCharges = (makingChargesPercent / 100) * goldValue;
+
+            // Calculate GST (3%)
+            var gst = 0.03 * (goldValue + makingCharges);
+
+            // Calculate total price
+            var totalPrice = goldValue + makingCharges + gst;
+
+            // Update the result fields
+            document.getElementById('goldValue').innerText = 'Gold Value: ₹' + goldValue.toFixed(2);
+            document.getElementById('makingChargesDisplay').innerText = 'Making Charges: ₹' + makingCharges.toFixed(2);
+            document.getElementById('gst').innerText = 'GST: ₹' + gst.toFixed(2);
+            document.getElementById('totalPrice').innerText = 'Total Price: ₹' + totalPrice.toFixed(2);
+
+            // Display the formula
+            document.getElementById('formulaDisplay').innerHTML = `<p>Gold Value = (Gold Rate × Purity × Grams) / 999</p>
+                <p>Gold Value = (${goldRate} × ${purity} × ${grams}) / 999 = ₹${goldValue.toFixed(2)}</p>
+                <p>Making Charges = (${makingChargesPercent}% of Gold Value) = ₹${makingCharges.toFixed(2)}</p>
+                <p>GST (3%) = ₹${gst.toFixed(2)}</p>
+                <p>Total Price = Gold Value + Making Charges + GST = ₹${totalPrice.toFixed(2)}</p>`;
+        }
+    </script>
+</body>
+</html>
